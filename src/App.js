@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Route } from 'react-router-dom';
 import data from './data';
 
@@ -13,9 +13,17 @@ function App() {
 	const [products] = useState(data);
 	const [cart, setCart] = useState([]);
 
+//	const [cart, setCart] = useState(localStorage.getItem("my cart items") || []);
+
 	const addItem = item => {
 		setCart([...cart, item]);
 	};
+
+	//local storage shenanigans
+//	useEffect(() => {
+//	  localStorage.setItem("my cart items", cart);
+//	})
+//	let retrieveState = 
 
 	return (
 		<ProductContext.Provider value={{products, addItem}}>
