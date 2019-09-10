@@ -11,23 +11,33 @@ import { CartContext } from "./contexts/CartContext";
 
 function App() {
 	const [products] = useState(data);
-	const [cart, setCart] = useState([]);
+//	const [cart, setCart] = useState([]);
 
-//	const [cart, setCart] = useState(localStorage.getItem("my cart items") || []);
+	const [cart, setCart] = useState([]);
 
 	const addItem = item => {
 		setCart([...cart, item]);
 	};
 
+
+	const removeItem = id => {
+		setCart(cart.filter(item => item.id !==id))
+		//alert("Remove from cart?");
+	};
+
+
 	//local storage shenanigans
-//	useEffect(() => {
-//	  localStorage.setItem("my cart items", cart);
-//	})
-//	let retrieveState = 
+	useEffect(() => {
+		let myItems = JSON.stringify(cart);
+	  localStorage.setItem("my cart items", myItems);
+	})
+
+
+
 
 	return (
 		<ProductContext.Provider value={{products, addItem}}>
-			<CartContext.Provider value={{cart}}>
+			<CartContext.Provider value={{cart, removeItem}}>
 				<div className="App">
 					<Navigation cart={cart} />
 
@@ -40,7 +50,7 @@ function App() {
 
 					<Route
 						path="/cart"
-						render={() => <ShoppingCart cart={cart} />}
+						component={ShoppingCart}
 					/>
 				</div>
 			</CartContext.Provider>
